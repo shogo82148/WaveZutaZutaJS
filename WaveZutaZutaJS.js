@@ -33,7 +33,14 @@
 
     WaveZutaZuta.prototype.getAudioNode = function(score) {
         var context = this.context;
-        var node = context.createJavaScriptNode(BUFFER_SIZE, 0, 1);
+        var node;
+        if (context.createScriptProcessor) {
+            node = context.createScriptProcessor(BUFFER_SIZE, 0, 1);
+        } else {
+            // old method
+            node = context.createJavaScriptNode(BUFFER_SIZE, 0, 1);
+
+        }
         var self = this;
         var score_pos = 0, note_pos = 0;
         var sourcedata = self.sourceBuffer.getChannelData(0);
